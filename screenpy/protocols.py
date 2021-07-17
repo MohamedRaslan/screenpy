@@ -73,26 +73,26 @@ class Performable(Protocol):
 
 
 class Adapter(Protocol):
-    """Required functions for an Adapter to the Narrator.
+    """Required functions for an Adapter to the Narrator's microphone.
 
     Adapters allow the Narrator's microphone to broadcast to multiple logging
     sources, such as stdout or Allure.
 
-    Each of the required methods pass in the message the narrator is set to
-    speak, along with the function that is decorated by the corresponding
-    ``screenpy.pacing`` function. The narrator expects the function to be
-    returned. This allows the adapter to decorate the test step, log the
-    message, or both, or neither!
+    Each of the methods described below correspond to the ``screenpy.pacing``
+    decorators of the same name. The narrator expects each of these methods to
+    yield the function back. This allows each adapter to modify the function
+    in whatever ways it needs to while allowing the adapters before and after
+    to do the same.
 
     Adapters must follow the function signatures exactly, even if the adapter
-    does not use one or more of them. The Narrator passes these arguments in
-    as keyword arguments.
+    does not use one or more of the parameters. The Narrator passes these
+    arguments in as keyword arguments, so they must not be renamed.
     """
 
-    # The direction, forward or backward, that chaining should follow.
-    # Forward passes the encapsulated function down to children, while
-    # backward goes to the very bottom and passes the encapsulated function
-    # back up to the top. Each adapter may need a different approach.
+    # The direction, narrator.FORWARD or narrator.BACKWARD, that chaining
+    # should follow while logging backed-up narrations.
+    # narrator.FORWARD passes earlier functions down to later functions.
+    # narrator.BACKWARD bubbles the later functions up to the top.
     chain_direction: str
 
     def act(

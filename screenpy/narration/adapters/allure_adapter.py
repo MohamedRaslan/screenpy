@@ -25,7 +25,7 @@ class AllureAdapter:
     def act(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
-        """Announce the Act."""
+        """Decorate the act with Allure's epic and severity decorators."""
         func = allure.epic(line)(func)
         if gravitas:
             func = allure.severity(self.GRAVITAS[gravitas])(func)
@@ -34,18 +34,18 @@ class AllureAdapter:
     def scene(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
-        """Set the Scene."""
+        """Decorate the scene with Allure's feature and severity decorators."""
         func = allure.feature(line)(func)
         if gravitas:
             func = allure.severity(self.GRAVITAS[gravitas])(func)
         yield func
 
     def beat(self, func: Callable, line: str) -> Generator:
-        """Encapsulate the function within the beat context."""
+        """Encapsulate the beat within Allure's step context."""
         with allure.step(line):
             yield func
 
     def aside(self, func: Callable, line: str) -> Generator:
-        """Add the aside to the report."""
+        """Encapsulate the aside within Allure's step context."""
         with allure.step(line):
             yield func

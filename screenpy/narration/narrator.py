@@ -92,14 +92,19 @@ class Narrator:
 
     @contextmanager
     def mic_cable_kinked(self) -> Generator:
-        """Put a kink in the microphone line, storing narrations during the context."""
+        """Put a kink in the microphone line, storing narrations.
+
+        Once this context is left, all stored narrations will be flushed. You
+        can call clear_backup to drop all stored narrations, or flush_backup
+        to log them all (and clear them afterward).
+        """
         self.cable_kinked = True
         yield
         self.flush_backup()
         self.cable_kinked = False
 
     def clear_backup(self) -> None:
-        """Clear the backed-up narration from a kinked cable."""
+        """Clear the backed-up narrations from a kinked cable."""
         self.backed_up_narrations = []
 
     @contextmanager
@@ -193,7 +198,7 @@ class Narrator:
     def announcing_the_act(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> ContextManager:
-        """Announce the name of the act into the microphone."""
+        """Narrate the title of the act."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("act", func=func, line=line, gravitas=gravitas)
@@ -201,19 +206,19 @@ class Narrator:
     def setting_the_scene(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> ContextManager:
-        """Set the scene into the microphone."""
+        """Narrate the title of the scene."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
     def stating_a_beat(self, func: Callable, line: str) -> ContextManager:
-        """State the beat into the microphone."""
+        """Narrate an emotional beat."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("beat", func=func, line=line)
 
     def whispering_an_aside(self, line: str) -> ContextManager:
-        """Whisper the aside (as a stage-whisper) into the microphone."""
+        """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:
             return self._dummy_entangle(lambda: "<static>")
         return self.narrate("aside", func=lambda: "ssh", line=line)

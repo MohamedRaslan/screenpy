@@ -27,7 +27,7 @@ class StdOutAdapter:
     def act(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
-        """Log the Act title to stdout, with some styling."""
+        """Wrap the act, to log the stylized title."""
 
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
@@ -40,7 +40,7 @@ class StdOutAdapter:
     def scene(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
-        """Log the Scene title to stdout, with some styling."""
+        """Wrap the scene, to log the stylized title."""
 
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
@@ -51,7 +51,7 @@ class StdOutAdapter:
         yield func_wrapper
 
     def beat(self, func: Callable, line: str) -> Generator:
-        """Log the beat to stdout, increasing the indent level."""
+        """Wrap the beat, to log the line, and increase the indent level."""
 
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
@@ -63,7 +63,7 @@ class StdOutAdapter:
         yield func_wrapper
 
     def aside(self, func: Callable, line: str) -> Generator:
-        """Log the aside to stdout."""
+        """Wrap the aside, to log the line."""
 
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
