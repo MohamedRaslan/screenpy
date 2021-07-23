@@ -10,7 +10,7 @@ they provide extra context
 after catching other,
 less descriptive exceptions.
 
-.. module:: screenpy.exceptions
+.. module:: screenpy.core.exceptions
 
 Base
 ^^^^

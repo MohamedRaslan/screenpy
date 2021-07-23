@@ -3,26 +3,34 @@ from unittest import mock
 import pytest
 from requests.cookies import RequestsCookieJar
 
-from screenpy import Director, Target
-from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
-from screenpy.actions import See, SeeAllOf, SeeAnyOf
-from screenpy.directions import the_noted
-from screenpy.questions import (
+from screenpy.core import Director
+from screenpy.web.selenium import Target
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.api.abilities import MakeAPIRequests
+from screenpy.core.actions import See, SeeAllOf, SeeAnyOf
+from screenpy.core.directions import the_noted
+
+from screenpy.web.selenium.questions import (
     Attribute,
-    BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
-    Cookies,
+    Cookies as WebCookies,
     Element,
-    HeadersOfTheLastResponse,
     List,
     Number,
     Selected,
-    StatusCodeOfTheLastResponse,
     Text,
     TextOfTheAlert,
 )
-from screenpy.resolutions import (
+
+from screenpy.api.questions import (
+    BodyOfTheLastResponse,
+    Cookies as APICoolies,
+    HeadersOfTheLastResponse,
+    StatusCodeOfTheLastResponse,
+)
+
+from screenpy.core.resolutions import (
     ContainsTheEntries,
     ContainsTheEntry,
     ContainsTheText,
@@ -32,8 +40,11 @@ from screenpy.resolutions import (
     IsEmpty,
     IsEqualTo,
     IsNot,
-    IsVisible,
     ReadsExactly,
+)
+
+from screenpy.web.selenium.resolutions import (
+    IsVisible,
 )
 
 
@@ -103,7 +114,7 @@ def test_is_equal_to_unequal_value(Tester):
         )
 
 
-@mock.patch("screenpy.questions.selected.SeleniumSelect")
+@mock.patch("screenpy.web.selenium.questions.selected.SeleniumSelect")
 def test_ask_for_selected(mocked_selenium_select, Tester):
     """Selected finds its Target and gets the first_selected_option"""
     fake_target = Target.the("fake").located_by("//xpath")
@@ -118,7 +129,7 @@ def test_ask_for_selected(mocked_selenium_select, Tester):
     mocked_browser.find_element.assert_called_once_with(*fake_target)
 
 
-@mock.patch("screenpy.questions.selected.SeleniumSelect")
+@mock.patch("screenpy.web.selenium.questions.selected.SeleniumSelect")
 def test_reads_exactly_mismatched_string(mocked_selenium_select, Tester):
     """ReadsExactly complains if the strings do not match exactly"""
     fake_target = Target.the("fake").located_by("//xpath")
@@ -254,7 +265,7 @@ def test_cookies_api_dict(APITester):
     test_jar.set(test_name, test_value)
     APITester.ability_to(MakeAPIRequests).session.cookies = test_jar
 
-    APITester.should(See.the(Cookies(), ContainTheEntry(**test_cookie)))
+    APITester.should(See.the(APICoolies(), ContainTheEntry(**test_cookie)))
 
 
 def test_cookies_web_dict(Tester):
@@ -266,7 +277,7 @@ def test_cookies_web_dict(Tester):
         {"name": test_name, "value": test_value}
     ]
 
-    Tester.should(See.the(Cookies(), ContainTheEntry(**test_cookie)))
+    Tester.should(See.the(WebCookies(), ContainTheEntry(**test_cookie)))
 
 
 def test_headers_returns_a_dict(APITester):

@@ -19,10 +19,10 @@ Granting Abilities
 
 To grant an Actor an Ability,
 pass it in using the Actor's
-:meth:`~screenpy.actor.Actor.who_can` method::
+:meth:`~screenpy.core.actor.Actor.who_can` method::
 
-    from screenpy import Actor, AnActor
-    from screenpy.abilities import BrowseTheWeb
+    from screenpy.core import Actor, AnActor
+    from screenpy.web.selenium.abilities import BrowseTheWeb
 
 
     # Add abilities on instantiation
@@ -50,8 +50,8 @@ besides the ones
 contained herein.
 ScreenPy encourages you to write your own!
 
-Abilities must be :class:`~screenpy.protocols.Forgettable`,
-which means they must have a :meth:`~screenpy.protocols.Forgettable.forget` method.
+Abilities must be :class:`~screenpy.core.protocols.Forgettable`,
+which means they must have a :meth:`~screenpy.core.protocols.Forgettable.forget` method.
 This method performs any necessary cleanup,
 such as closing connections
 or deleting objects.
@@ -94,7 +94,7 @@ for the extremely contrived
 
 ``CheckSpelling`` provides an interface
 to the `enchant <https://pyenchant.github.io/pyenchant/>`_ library.
-The required :meth:`~screenpy.protocols.Forgettable.forget` method
+The required :meth:`~screenpy.core.protocols.Forgettable.forget` method
 cleans up the Ability
 when the Actor exits.
 
@@ -110,7 +110,10 @@ Included Abilities
 
 These are the Abilities included in ScreenPy.
 
-.. module:: screenpy.abilities
+Web Abilities
+-------------
+
+.. module:: screenpy.web.selenium.abilities
 
 AuthenticateWith2FA
 ^^^^^^^^^^^^^^^^^^^
@@ -123,6 +126,12 @@ BrowseTheWeb
 
 .. autoclass:: BrowseTheWeb
     :members:
+
+
+API Abilities
+-------------
+
+.. module:: screenpy.api.abilities
 
 MakeAPIRequests
 ^^^^^^^^^^^^^^^

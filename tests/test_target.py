@@ -2,8 +2,8 @@ import pytest
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 
-from screenpy.abilities import BrowseTheWeb
-from screenpy.target import Target, TargetingError
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.web.selenium.target import Target, TargetingError
 
 
 def test_can_be_instantiated():

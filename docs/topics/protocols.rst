@@ -7,7 +7,7 @@ ScreenPy uses Protocols
 to enable "structure subclassing."
 This means
 a Question is only a Question
-if it is :class:`~screenpy.protocols.Answerable`,
+if it is :class:`~screenpy.core.protocols.Answerable`,
 for example.
 
 Note that :ref:`resolutions`
@@ -22,7 +22,7 @@ Actions,
 and Questions
 through the methods they need.
 
-.. module:: screenpy.protocols
+.. module:: screenpy.core.protocols
 
 Abilities
 ---------

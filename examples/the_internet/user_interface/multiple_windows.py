@@ -3,7 +3,7 @@ Locators and URLs for the Multiple Windows page.
 """
 
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "http://the-internet.herokuapp.com/windows"
 

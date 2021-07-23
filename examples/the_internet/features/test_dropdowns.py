@@ -7,12 +7,13 @@ import unittest
 
 from selenium.webdriver import Firefox
 
-from screenpy import AnActor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open, See, Select
-from screenpy.pacing import act, scene
-from screenpy.questions import Selected
-from screenpy.resolutions import ReadsExactly
+from screenpy.core import AnActor, given, then, when
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.core.actions import See
+from screenpy.web.selenium.actions import Open, Select
+from screenpy.core.pacing import act, scene
+from screenpy.web.selenium.questions import Selected
+from screenpy.core.resolutions import ReadsExactly
 
 from ..user_interface.dropdown import THE_DROPDOWN, URL
 

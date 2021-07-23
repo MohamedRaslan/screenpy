@@ -18,12 +18,12 @@ for more information.
 Explicit Waits
 --------------
 
-ScreenPy provides a :class:`~screenpy.actions.Wait` Action
+ScreenPy provides a :class:`~screenpy.web.selenium.actions.Wait` Action
 to wait for the application
 to meet a certain condition.
 Wait provides direct methods
 for many common conditions,
-such as :meth:`~screenpy.actions.Wait.to_appear`.
+such as :meth:`~screenpy.web.selenium.actions.Wait.to_appear`.
 You are also able to pass in any other condition,
 including custom ones,
 if those don't suit your needs.
@@ -31,7 +31,7 @@ if those don't suit your needs.
 Here are some examples
 of how to use this Action::
 
-    from screenpy.actions import Wait
+    from screenpy.web.selenium.actions import Wait
 
 
     # waits 20 seconds for the sign in modal to appear
@@ -85,7 +85,7 @@ In these situations,
 ScreenPy offers the |Pause| Action.
 Here are some ways to use it::
 
-    from screenpy.actions import Pause
+    from screenpy.web.selenium.actions import Pause
 
 
     Perry.attempts_to(Pause.for_(30).seconds_because("manual intervention is required."))

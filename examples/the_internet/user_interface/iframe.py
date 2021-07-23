@@ -3,7 +3,7 @@ Locators and URL for the Iframe page.
 """
 
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "http://the-internet.herokuapp.com/iframe"
 

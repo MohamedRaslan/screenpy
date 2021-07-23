@@ -5,9 +5,9 @@ A slightly more interesting task to search GitHub for a string.
 
 from selenium.webdriver.common.keys import Keys
 
-from screenpy import Actor
-from screenpy.actions import Enter, Wait
-from screenpy.pacing import beat
+from screenpy.core import Actor
+from screenpy.web.selenium.actions import Enter, Wait
+from screenpy.core.pacing import beat
 
 from ..user_interface.github_header_bar import SEARCH_INPUT
 from ..user_interface.github_search_results_page import RESULTS_MESSAGE

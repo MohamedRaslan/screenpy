@@ -3,7 +3,7 @@ Locators and URL for the Add & Remove Elements page.
 """
 
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "http://the-internet.herokuapp.com/add_remove_elements/"
 

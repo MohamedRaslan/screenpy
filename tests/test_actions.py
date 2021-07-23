@@ -2,33 +2,18 @@ import pytest
 from selenium.webdriver.common.keys import Keys
 from unittest import mock
 
-from screenpy.actions import (
-    AcceptAlert,
-    AddHeader,
-    AddHeaders,
-    Click,
+from screenpy.core.actions import (
     Debug,
-    DismissAlert,
-    DoubleClick,
-    Enter,
-    Enter2FAToken,
-    generate_send_method_class,
-    GoBack,
-    GoForward,
-    HoldDown,
     MakeNote,
-    MoveMouse,
-    Open,
-    Pause,
-    Press,
-    RefreshPage,
-    Release,
-    RespondToThePrompt,
-    RightClick,
     See,
     SeeAllOf,
     SeeAnyOf,
-    Select,
+)
+
+from screenpy.api.actions import (
+    AddHeader,
+    AddHeaders,
+    generate_send_method_class,
     SendAPIRequest,
     SendDELETERequest,
     SendGETRequest,
@@ -38,12 +23,37 @@ from screenpy.actions import (
     SendPOSTRequest,
     SendPUTRequest,
     SetHeaders,
+)
+
+from screenpy.web.selenium.actions import (
+    AcceptAlert,
+    Click,
+    DismissAlert,
+    DoubleClick,
+    Enter,
+    Enter2FAToken,
+    GoBack,
+    GoForward,
+    HoldDown,
+    MoveMouse,
+    Open,
+    Pause,
+    Press,
+    RefreshPage,
+    Release,
+    RespondToThePrompt,
+    RightClick,
+    Select,
     SwitchTo,
     SwitchToTab,
     Wait,
 )
-from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
-from screenpy import Target
+from screenpy.web.selenium.actions.select import (
+    SelectByIndex,
+    SelectByText,
+    SelectByValue,
+)
+from screenpy.web.selenium import Target
 
 
 class TestAcceptAlert:
@@ -201,7 +211,7 @@ class TestHoldDown:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """HoldDown figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
+        system_path = "screenpy.web.selenium.actions.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             hd = HoldDown.command_or_control_key()
 
@@ -334,7 +344,7 @@ class TestRelease:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """Release figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
+        system_path = "screenpy.web.selenium.actions.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             r = Release.command_or_control_key()
 
