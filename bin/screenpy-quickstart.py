@@ -75,7 +75,7 @@ create_module(
 Locators and the URL for ScreenPy's ReadTheDocs homepage.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/"
 
@@ -96,7 +96,7 @@ create_module(
 Locators and the URL for ScreenPy's Actors docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/actors.html"
 
@@ -114,7 +114,7 @@ create_module(
 Locators and the URL for ScreenPy's Abilities docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/abilities.html"
 
@@ -132,7 +132,7 @@ create_module(
 Locators and the URL for ScreenPy's Targets docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/targets.html"
 
@@ -150,7 +150,7 @@ create_module(
 Locators and the URL for ScreenPy's Actions docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/actions.html"
 
@@ -168,7 +168,7 @@ create_module(
 Locators and the URL for ScreenPy's Questions docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/questions.html"
 
@@ -186,7 +186,7 @@ create_module(
 Locators and the URL for ScreenPy's Resolutions docs page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/resolutions.html"
 
@@ -208,8 +208,8 @@ performs this task like so:
     the_actor.attempts_to(Start.on_the_docs_page())
 """
 
-from screenpy import AnActor
-from screenpy.actions import Open
+from screenpy.core import AnActor
+from screenpy.web.selenium.actions import Open
 
 from ..ui import docs_page
 
@@ -255,11 +255,12 @@ You will probably want to only follow one style.
 """
 
 from selenium.webdriver import Firefox
-from screenpy import AnActor, given, when, then
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, See, Wait
-from screenpy.questions import Text
-from screenpy.resolutions import ContainsTheText
+from screenpy.core import AnActor, given, when, then
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.core.actions import See
+from screenpy.web.selenium.actions import Click, Wait
+from screenpy.web.selenium.questions import Text
+from screenpy.core.resolutions import ContainsTheText
 
 from ..tasks.start import Start
 from ..ui import  (
