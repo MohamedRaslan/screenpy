@@ -3,12 +3,9 @@ from unittest import mock
 
 import pytest
 
-from screenpy.abilities import (
-    AuthenticateWith2FA,
-    BrowseTheWeb,
-    MakeAPIRequests,
-)
-from screenpy.exceptions import BrowsingError, RequestError
+from screenpy.web.selenium.abilities import AuthenticateWith2FA, BrowseTheWeb
+from screenpy.api.abilities import MakeAPIRequests
+from screenpy.core.exceptions import BrowsingError, RequestError
 
 
 class TestBrowseTheWeb:
@@ -17,26 +14,26 @@ class TestBrowseTheWeb:
 
         assert isinstance(b, BrowseTheWeb)
 
-    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    @mock.patch("screenpy.web.selenium.abilities.browse_the_web.Firefox")
     def test_using_firefox(self, mocked_firefox):
         BrowseTheWeb.using_firefox()
 
         mocked_firefox.assert_called_once()
 
-    @mock.patch("screenpy.abilities.browse_the_web.Chrome")
+    @mock.patch("screenpy.web.selenium.abilities.browse_the_web.Chrome")
     def test_using_chrome(self, mocked_chrome):
         BrowseTheWeb.using_chrome()
 
         mocked_chrome.assert_called_once()
 
-    @mock.patch("screenpy.abilities.browse_the_web.Safari")
+    @mock.patch("screenpy.web.selenium.abilities.browse_the_web.Safari")
     def test_using_safari(self, mocked_safari):
         BrowseTheWeb.using_safari()
 
         mocked_safari.assert_called_once()
 
     @mock.patch.dict(os.environ, {"IOS_DEVICE_VERSION": "1"})
-    @mock.patch("screenpy.abilities.browse_the_web.Remote")
+    @mock.patch("screenpy.web.selenium.abilities.browse_the_web.Remote")
     def test_using_ios(self, mocked_remote):
         BrowseTheWeb.using_ios()
 
@@ -47,7 +44,7 @@ class TestBrowseTheWeb:
             BrowseTheWeb.using_ios()
 
     @mock.patch.dict(os.environ, {"ANDROID_DEVICE_VERSION": "1"})
-    @mock.patch("screenpy.abilities.browse_the_web.Remote")
+    @mock.patch("screenpy.web.selenium.abilities.browse_the_web.Remote")
     def test_using_android(self, mocked_android):
         BrowseTheWeb.using_android()
 
@@ -66,7 +63,7 @@ class TestAuthenticateWith2FA:
         assert isinstance(a1, AuthenticateWith2FA)
         assert isinstance(a2, AuthenticateWith2FA)
 
-    @mock.patch("screenpy.abilities.authenticate_with_2fa.pyotp")
+    @mock.patch("screenpy.web.selenium.abilities.authenticate_with_2fa.pyotp")
     def test_using_secret(self, mocked_pyotp):
         secret = "THISISJUSTATESTTOKENITSNOTAREAL1"
         AuthenticateWith2FA.using_secret(secret)
@@ -91,7 +88,7 @@ class TestMakeAPIRequests:
     @pytest.mark.parametrize(
         "method", ["delete", "get", "head", "options", "patch", "post", "put"]
     )
-    @mock.patch("screenpy.abilities.make_api_requests.Session")
+    @mock.patch("screenpy.api.abilities.make_api_requests.Session")
     def test_http_method_calls_correct_session_method(self, mocked_session, method):
         mar = MakeAPIRequests()
 

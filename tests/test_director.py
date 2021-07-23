@@ -1,4 +1,4 @@
-from screenpy import Director
+from screenpy.core import Director
 
 
 def test_is_singleton():

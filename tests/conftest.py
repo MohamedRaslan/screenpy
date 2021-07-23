@@ -2,12 +2,9 @@ from unittest import mock
 
 import pytest
 
-from screenpy import AnActor
-from screenpy.abilities import (
-    AuthenticateWith2FA,
-    BrowseTheWeb,
-    MakeAPIRequests,
-)
+from screenpy.core import AnActor
+from screenpy.web.selenium.abilities import AuthenticateWith2FA, BrowseTheWeb
+from screenpy.api.abilities import MakeAPIRequests
 
 
 @pytest.fixture(scope="function")

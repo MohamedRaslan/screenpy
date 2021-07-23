@@ -6,15 +6,23 @@ import pytest
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 
-from screenpy import Director, Target
-from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
-from screenpy.actions import (
+from screenpy.core import Director
+from screenpy.web.selenium import Target
+from screenpy.web.selenium.abilities import AuthenticateWith2FA, BrowseTheWeb
+from screenpy.api.abilities import MakeAPIRequests
+from screenpy.core.actions import (
+    Debug,
+    MakeNote,
+    See,
+    SeeAllOf,
+    SeeAnyOf,
+)
+
+from screenpy.web.selenium.actions import (
     AcceptAlert,
-    AddHeaders,
     Chain,
     Clear,
     Click,
-    Debug,
     DismissAlert,
     DoubleClick,
     Enter,
@@ -22,7 +30,6 @@ from screenpy.actions import (
     GoBack,
     GoForward,
     HoldDown,
-    MakeNote,
     MoveMouse,
     Open,
     Pause,
@@ -30,18 +37,21 @@ from screenpy.actions import (
     Release,
     RespondToThePrompt,
     RightClick,
-    See,
-    SeeAllOf,
-    SeeAnyOf,
-    SendAPIRequest,
     Select,
-    SetHeaders,
     SwitchTo,
     SwitchToTab,
     Wait,
 )
-from screenpy.directions import noted_under
-from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
+
+from screenpy.api.actions import (
+    AddHeaders,
+    SendAPIRequest,
+    SetHeaders,
+)
+
+
+from screenpy.core.directions import noted_under
+from screenpy.core.exceptions import DeliveryError, UnableToAct, UnableToDirect
 
 
 def test_accept_alert_calls_accept(Tester):
@@ -96,7 +106,7 @@ class TestClick:
         mocked_browser = Tester.ability_to(BrowseTheWeb).browser
         mocked_browser.find_element.return_value.click.assert_called_once()
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -106,7 +116,7 @@ class TestClick:
 
         MockedActionChains().click.assert_called_once_with(on_element=mock_element)
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_target_is_only_optional_for_chaining(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -120,14 +130,14 @@ class TestClick:
 
 
 class TestDebug:
-    @mock.patch("screenpy.actions.debug.breakpoint")
+    @mock.patch("screenpy.core.actions.debug.breakpoint")
     def test_calls_breakpoint(self, mocked_breakpoint, Tester):
         Tester.attempts_to(Debug())
 
         mocked_breakpoint.assert_called_once()
 
-    @mock.patch("screenpy.actions.debug.breakpoint")
-    @mock.patch("screenpy.actions.debug.pdb")
+    @mock.patch("screenpy.core.actions.debug.breakpoint")
+    @mock.patch("screenpy.core.actions.debug.pdb")
     def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester):
         mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
 
@@ -144,7 +154,7 @@ def test_dismiss_alert_calls_dismiss(Tester):
 
 
 class TestDoubleClick:
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_double_click(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -156,13 +166,13 @@ class TestDoubleClick:
             on_element=mock_element
         )
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_without_target(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(DoubleClick()))
 
         MockedActionChains().double_click.assert_called_once_with(on_element=None)
 
-    @mock.patch("screenpy.actions.double_click.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.double_click.ActionChains")
     def test_can_be_performed(self, MockedActionChains, Tester):
         Tester.attempts_to(DoubleClick())
 
@@ -197,7 +207,7 @@ class TestEnter:
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Enter.the_text("test"))
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_chained_calls_send_keys(self, MockedActionChains, Tester):
         text = "test"
 
@@ -205,7 +215,7 @@ class TestEnter:
 
         MockedActionChains().send_keys.assert_called_once_with(text)
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_chained_calls_send_keys_to_element(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -231,7 +241,7 @@ class TestEnter2FAToken:
         mocked_browser = Tester.ability_to(BrowseTheWeb).browser
         mocked_browser.find_element.return_value.send_keys.assert_called_once_with(text)
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
         text = "test"
         mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
@@ -262,13 +272,13 @@ def test_go_forward_uses_forward(Tester):
 
 
 class TestHoldDown:
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_key_down(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(HoldDown(Keys.ALT)))
 
         MockedActionChains().key_down.assert_called_once_with(Keys.ALT)
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_click_and_hold(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(HoldDown.left_mouse_button()))
 
@@ -313,7 +323,7 @@ class TestMakeNote:
 
 
 class TestMoveMouse:
-    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.move_mouse.ActionChains")
     def test_calls_move_to_element(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -323,7 +333,7 @@ class TestMoveMouse:
 
         MockedActionChains().move_to_element.assert_called_once_with(mock_element)
 
-    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.move_mouse.ActionChains")
     def test_calls_move_by_offset(self, MockedActionChains, Tester):
         offset = (1, 2)
 
@@ -331,7 +341,7 @@ class TestMoveMouse:
 
         MockedActionChains().move_by_offset.assert_called_once_with(*offset)
 
-    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.move_mouse.ActionChains")
     def test_calls_move_to_element_by_offset(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -344,7 +354,7 @@ class TestMoveMouse:
             mock_element, *offset
         )
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
         offset = (1, 2)
 
@@ -363,7 +373,7 @@ def test_open_calls_get(Tester):
 
 
 class TestPause:
-    @mock.patch("screenpy.actions.pause.sleep")
+    @mock.patch("screenpy.web.selenium.actions.pause.sleep")
     def test_calls_sleep(self, mocked_sleep, Tester):
         duration = 20
 
@@ -375,7 +385,7 @@ class TestPause:
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Pause.for_(20))
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
         duration = 20
 
@@ -392,13 +402,13 @@ def test_refresh_page_calls_refresh(Tester):
 
 
 class TestRelease:
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_key_down(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(Release(Keys.ALT)))
 
         MockedActionChains().key_up.assert_called_once_with(Keys.ALT)
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_release(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(Release.left_mouse_button()))
 
@@ -417,7 +427,7 @@ def test_respond_to_the_prompt_calls_relevant_methods(Tester):
 
 
 class TestRightClick:
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_calls_double_click(self, MockedActionChains, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
@@ -429,13 +439,13 @@ class TestRightClick:
             on_element=mock_element
         )
 
-    @mock.patch("screenpy.actions.chain.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.chain.ActionChains")
     def test_without_target(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(RightClick()))
 
         MockedActionChains().context_click.assert_called_once_with(on_element=None)
 
-    @mock.patch("screenpy.actions.right_click.ActionChains")
+    @mock.patch("screenpy.web.selenium.actions.right_click.ActionChains")
     def test_can_be_performed(self, MockedActionChains, Tester):
         Tester.attempts_to(RightClick())
 
@@ -443,7 +453,7 @@ class TestRightClick:
 
 
 class TestSee:
-    @mock.patch("screenpy.actions.see.assert_that")
+    @mock.patch("screenpy.core.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
         mock_question = mock.Mock()
         mock_resolution = mock.Mock()
@@ -457,7 +467,7 @@ class TestSee:
 
 
 class TestSeeAllOf:
-    @mock.patch("screenpy.actions.see_all_of.See")
+    @mock.patch("screenpy.core.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
         tests = ((mock.Mock(), mock.Mock()),) * num_tests
@@ -473,7 +483,7 @@ class TestSeeAllOf:
 
 
 class TestSeeAnyOf:
-    @mock.patch("screenpy.actions.see_any_of.See")
+    @mock.patch("screenpy.core.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
         tests = ((mock.Mock(), mock.Mock()),) * num_tests
@@ -489,7 +499,7 @@ class TestSeeAnyOf:
 
 
 class TestSelectByIndex:
-    @mock.patch("screenpy.actions.select.SeleniumSelect")
+    @mock.patch("screenpy.web.selenium.actions.select.SeleniumSelect")
     def test_calls_select_by_index(self, mocked_selenium_select, Tester):
         index = 1
         fake_target = Target.the("fake").located_by("//xpath")
@@ -506,7 +516,7 @@ class TestSelectByIndex:
 
 
 class TestSelectByText:
-    @mock.patch("screenpy.actions.select.SeleniumSelect")
+    @mock.patch("screenpy.web.selenium.actions.select.SeleniumSelect")
     def test_calls_select_by_visible_text(self, mocked_selenium_select, Tester):
         text = "test"
         fake_target = Target.the("fake").located_by("//xpath")
@@ -522,7 +532,7 @@ class TestSelectByText:
 
 
 class TestSelectByValue:
-    @mock.patch("screenpy.actions.select.SeleniumSelect")
+    @mock.patch("screenpy.web.selenium.actions.select.SeleniumSelect")
     def test_calls_select_by_value(self, mocked_selenium_select, Tester):
         value = 1337
         fake_target = Target.the("fake").located_by("//xpath")
@@ -625,8 +635,8 @@ class TestSendAPIRequest:
 
 
 class TestWait:
-    @mock.patch("screenpy.actions.wait.EC")
-    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    @mock.patch("screenpy.web.selenium.actions.wait.EC")
+    @mock.patch("screenpy.web.selenium.actions.wait.WebDriverWait")
     def test_defaults(self, mocked_webdriverwait, mocked_ec, Tester):
         test_target = Target.the("foo").located_by("//bar")
         mocked_ec.visibility_of_element_located.__name__ = "foo"
@@ -640,7 +650,7 @@ class TestWait:
             mocked_ec.visibility_of_element_located.return_value
         )
 
-    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    @mock.patch("screenpy.web.selenium.actions.wait.WebDriverWait")
     def test_custom(self, mocked_webdriverwait, Tester):
         test_func = mock.Mock()
         test_func.__name__ = "foo"
@@ -651,8 +661,8 @@ class TestWait:
             test_func.return_value
         )
 
-    @mock.patch("screenpy.actions.wait.EC")
-    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    @mock.patch("screenpy.web.selenium.actions.wait.EC")
+    @mock.patch("screenpy.web.selenium.actions.wait.WebDriverWait")
     def test_exception(self, mocked_webdriverwait, mocked_ec, Tester):
         test_target = Target.the("foo").located_by("//bar")
         mocked_ec.visibility_of_element_located.__name__ = "foo"

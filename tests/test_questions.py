@@ -4,25 +4,30 @@ from unittest import mock
 import pytest
 from selenium.common.exceptions import WebDriverException
 
-from screenpy import AnActor, Target
-from screenpy.abilities import MakeAPIRequests
-from screenpy.abilities.browse_the_web import BrowseTheWeb
-from screenpy.exceptions import UnableToAnswer
-from screenpy.questions import (
+from screenpy.core import AnActor
+from screenpy.web.selenium import Target
+from screenpy.api.abilities import MakeAPIRequests
+from screenpy.web.selenium.abilities.browse_the_web import BrowseTheWeb
+from screenpy.core.exceptions import UnableToAnswer
+from screenpy.web.selenium.questions import (
     Attribute,
-    BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
-    Cookies,
-    CookiesOnTheAPISession,
+    Cookies as WebCookies,
     CookiesOnTheWebSession,
     Element,
-    HeadersOfTheLastResponse,
     List,
     Number,
     Selected,
-    StatusCodeOfTheLastResponse,
     Text,
+)
+
+from screenpy.api.questions import (
+    BodyOfTheLastResponse,
+    Cookies as APICookies,
+    CookiesOnTheAPISession,
+    HeadersOfTheLastResponse,
+    StatusCodeOfTheLastResponse,
 )
 
 
@@ -91,31 +96,37 @@ class TestBrowserURL:
 
 class TestCookies:
     def test_can_be_instantiated(self):
-        c = Cookies()
+        wc = WebCookies()
+        apic = APICookies()
 
-        assert isinstance(c, Cookies)
+        assert isinstance(wc, WebCookies)
+        assert isinstance(apic, APICookies)
 
-    @mock.patch("screenpy.questions.cookies.CookiesOnTheWebSession")
+    @mock.patch("screenpy.web.selenium.questions.cookies.CookiesOnTheWebSession")
     def test_calls_web_session(self, mock_CookiesOnTheWebSession, Tester):
         """Cookies calls CookiesOnTheWebSession for BrowseTheWeb"""
-        Cookies().answered_by(Tester)
+        WebCookies().answered_by(Tester)
 
         mock_CookiesOnTheWebSession.return_value.answered_by.assert_called_once_with(
             Tester
         )
 
-    @mock.patch("screenpy.questions.cookies.CookiesOnTheAPISession")
+    @mock.patch("screenpy.api.questions.cookies.CookiesOnTheAPISession")
     def test_calls_api_session(self, mock_CookiesOnTheAPISession, APITester):
         """Cookies calls CookiesOnTheAPISession for MakeAPIRequests"""
-        Cookies().answered_by(APITester)
+        APICookies().answered_by(APITester)
 
         mock_CookiesOnTheAPISession.return_value.answered_by.assert_called_once_with(
             APITester
         )
 
-    def test_raises_exception_if_missing_abilities(self):
+    def test_raises_exception_if_missing_abilities_web(self):
         with pytest.raises(UnableToAnswer):
-            Cookies().answered_by(AnActor.named("Bob"))
+            APICookies().answered_by(AnActor.named("Bob"))
+
+    def test_raises_exception_if_missing_abilities_api(self):
+        with pytest.raises(UnableToAnswer):
+            WebCookies().answered_by(AnActor.named("Bob"))
 
 
 class TestCookiesOnTheAPISession:

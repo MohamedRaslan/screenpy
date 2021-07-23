@@ -1,7 +1,7 @@
 import pytest
 from unittest import mock
 
-from screenpy.resolutions import (
+from screenpy.core.resolutions import (
     BaseResolution,
     ContainsTheEntry,
     ContainsTheItem,
@@ -12,12 +12,15 @@ from screenpy.resolutions import (
     Empty,
     Equal,
     HasLength,
-    IsClickable,
     IsCloseTo,
     IsEqualTo,
     IsNot,
-    IsVisible,
     ReadsExactly,
+)
+
+from screenpy.web.selenium.resolutions import (
+    IsClickable,
+    IsVisible,
 )
 
 

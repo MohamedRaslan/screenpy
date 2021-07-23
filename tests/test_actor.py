@@ -2,8 +2,8 @@ from unittest import mock
 
 import pytest
 
-from screenpy import Actor
-from screenpy.exceptions import UnableToPerform
+from screenpy.core import Actor
+from screenpy.core.exceptions import UnableToPerform
 
 
 def test_can_be_instantiated():
