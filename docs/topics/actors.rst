@@ -27,7 +27,7 @@ Using Actors
 To instantiate a new Actor,
 give it a name::
 
-    from screenpy.actor import Actor, AnActor
+    from screenpy.core.actor import Actor, AnActor
 
 
     Perry = AnActor.named("Perry")
@@ -39,7 +39,7 @@ Grant Abilities to your Actors like so::
 
     from selenium.webdriver import Firefox
 
-    from screenpy.abilities import BrowseTheWeb
+    from screenpy.web.selenium.abilities import BrowseTheWeb
 
 
     Perry.can(BrowseTheWeb.using(Firefox()))
@@ -52,9 +52,9 @@ Perry is able to attempt any Actions
 which need the Ability to |BrowseTheWeb|.
 Here's Perry attempting to click a link::
 
-    from screenpy import Target
+    from screenpy.web.selenium import Target
 
-    from screenpy.actions import Click
+    from screenpy.web.selenium.actions import Click
 
 
     LOGIN_LINK = Target.the('"Log In" link').located_by("//a")
@@ -79,9 +79,9 @@ Questions and Resolutions
 are how to make assertions in ScreenPy,
 like so::
 
-    from screenpy.actions import See
-    from screenpy.questions import Text
-    from screenpy.resolutions import ReadsExactly
+    from screenpy.core.actions import See
+    from screenpy.web.selenium.questions import Text
+    from screenpy.core.resolutions import ReadsExactly
 
 
     THE_WELCOME_MESSAGE = Target.the("welcome_message").located_by("span.welcome")
@@ -102,5 +102,5 @@ on the :ref:`abilities` page!
 Actor Class
 -----------
 
-.. autoclass:: screenpy.actor.Actor
+.. autoclass:: screenpy.core.actor.Actor
     :members:

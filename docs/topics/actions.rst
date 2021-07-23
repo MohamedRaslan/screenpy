@@ -16,9 +16,9 @@ Your Actors will use Actions
 during the `Arrange and Act parts <https://docs.microsoft.com/en-us/visualstudio/test/unit-test-basics?view=vs-2019#write-your-tests>`_
 of your tests.
 Here is an example
-using the :class:`~screenpy.actions.Click` Action::
+using the :class:`~screenpy.web.selenium.actions.Click` Action::
 
-    from screenpy.actions import Click
+    from screenpy.web.selenium.actions import Click
 
     from ..user_interface.homepage import LOGIN_LINK
 
@@ -43,8 +43,8 @@ Since ScreenPy is extensible,
 it is easy—and encouraged!—
 to create your own custom Actions.
 
-Actions must be :class:`~screenpy.protocols.Performable`,
-which means they have a :meth:`~screenpy.protocols.Performable.perform_as` method.
+Actions must be :class:`~screenpy.core.protocols.Performable`,
+which means they have a :meth:`~screenpy.core.protocols.Performable.perform_as` method.
 This method tells the Actor
 how to use their Abilities
 to perform the Action.
@@ -59,7 +59,8 @@ for the extremely contrived
 ``CheckTheSpelling``::
 
     # actions/check_the_spelling.py
-    from screenpy import AnActor, Target
+    from screenpy.core import AnActor
+    from screenpy.web.selenium import Target
 
     from ..abilities import CheckSpelling
 
@@ -131,9 +132,9 @@ is logging in to your application under test::
     # tasks/login.py
     import os
 
-    from screenpy import Actor
-    from screenpy.actions import Click, Enter, Visit
-    from screenpy.pacing import beat
+    from screenpy.core import Actor
+    from screenpy.web.selenium.actions import Click, Enter, Visit
+    from screenpy.core.pacing import beat
 
     from ..user_interface.homepage import (
         LOGIN_BUTTON,
@@ -187,7 +188,7 @@ and ``Enter`` Actions.
 
 Note thats,
 like Actions,
-must be :class:`~screenpy.protocols.Performable`.
+must be :class:`~screenpy.core.protocols.Performable`.
 
 Up Next
 -------
@@ -200,18 +201,53 @@ Provided Actions
 
 These are the Actions included in ScreenPy.
 
-.. module:: screenpy.actions
+
+Core Actions
+------------
+
+.. module:: screenpy.core.actions
+
+Debug
+^^^^^
+
+.. autoclass:: Debug
+    :members:
+
+MakeNote
+^^^^^^^^
+
+.. autoclass:: MakeNote
+    :members:
+
+See
+^^^
+
+.. autoclass:: See
+    :members:
+
+SeeAllOf
+^^^^^^^^
+
+.. autoclass:: SeeAllOf
+    :members:
+
+SeeAnyOf
+^^^^^^^^
+
+.. autoclass:: SeeAnyOf
+    :members:
+
+
+Web Actions
+-----------
+
+.. module:: screenpy.web.selenium.actions
 
 AcceptAlert
 ^^^^^^^^^^^
 
 .. autoclass:: AcceptAlert
     :members:
-
-AddHeader
-^^^^^^^^^
-
-.. autoclass:: AddHeader
 
 Chain
 ^^^^^
@@ -229,12 +265,6 @@ Clear
 ^^^^^
 
 .. autoclass:: Clear
-    :members:
-
-Debug
-^^^^^
-
-.. autoclass:: Debug
     :members:
 
 DismissAlert
@@ -279,12 +309,6 @@ HoldDown
 .. autoclass:: HoldDown
     :members:
 
-MakeNote
-^^^^^^^^
-
-.. autoclass:: MakeNote
-    :members:
-
 MoveMouse
 ^^^^^^^^^
 
@@ -327,24 +351,6 @@ RightClick
 .. autoclass:: RightClick
     :members:
 
-See
-^^^
-
-.. autoclass:: See
-    :members:
-
-SeeAllOf
-^^^^^^^^
-
-.. autoclass:: SeeAllOf
-    :members:
-
-SeeAnyOf
-^^^^^^^^
-
-.. autoclass:: SeeAnyOf
-    :members:
-
 Select
 ^^^^^^
 
@@ -356,6 +362,34 @@ Select
     :members:
 .. autoclass:: SelectByValue
     :members:
+
+SwitchTo
+^^^^^^^^
+
+.. autoclass:: SwitchTo
+    :members:
+
+SwitchToTab
+^^^^^^^^^^^
+
+.. autoclass:: SwitchToTab
+    :members:
+
+Wait
+^^^^
+
+.. autoclass:: Wait
+    :members:
+
+
+API Actions
+-----------
+.. module:: screenpy.api.actions
+
+AddHeader
+^^^^^^^^^
+
+.. autoclass:: AddHeader
 
 SendAPIRequest
 ^^^^^^^^^^^^^^
@@ -403,22 +437,4 @@ SetHeaders
 ^^^^^^^^^^
 
 .. autoclass:: SetHeaders
-    :members:
-
-SwitchTo
-^^^^^^^^
-
-.. autoclass:: SwitchTo
-    :members:
-
-SwitchToTab
-^^^^^^^^^^^
-
-.. autoclass:: SwitchToTab
-    :members:
-
-Wait
-^^^^
-
-.. autoclass:: Wait
     :members:

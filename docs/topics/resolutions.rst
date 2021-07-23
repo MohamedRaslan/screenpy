@@ -16,9 +16,9 @@ by pairing them with a :ref:`Question <questions>`.
 The |See| Action
 accepts that pair to make an assertion::
 
-    from screenpy.actions import See
-    from screenpy.questions import Text
-    from screenpy.resolutions import ReadsExactly
+    from screenpy.core.actions import See
+    from screenpy.web.selenuim.questions import Text
+    from screenpy.core.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
@@ -27,8 +27,8 @@ accepts that pair to make an assertion::
 
 
 |See| will then compare
-the value returned by :class:`~screenpy.questions.Text`
-to the value passed in to :class:`~screenpy.resolutions.ReadsExactly`.
+the value returned by :class:`~screenpy.web.selenuim.questions.Text`
+to the value passed in to :class:`~screenpy.core.resolutions.ReadsExactly`.
 If the two values match,
 bravo!
 Our test passes.
@@ -43,7 +43,7 @@ Resolutions are an abstraction barrier
 for the excellent |PyHamcrest| library.
 To add a custom Resolutions,
 you will need to inherit
-from the :class:`~screenpy.resolutions.base_resolution.BaseResolution` class.
+from the :class:`~screenpy.core.resolutions.base_resolution.BaseResolution` class.
 All you need to provide
 in your custom Resolution
 is a ``line`` class property
@@ -91,7 +91,10 @@ Provided Resolutions
 
 These are the Resolutions included in ScreenPy.
 
-.. module:: screenpy.resolutions
+Core Resolutions
+----------------
+
+.. module:: screenpy.core.resolutions
 
 ContainsTheText
 ^^^^^^^^^^^^^^^
@@ -123,10 +126,6 @@ HasLength
 
 .. autoclass:: HasLength
 
-IsClickable
-^^^^^^^^^^^
-
-.. autoclass:: IsClickable
 
 IsCloseTo
 ^^^^^^^^^
@@ -148,12 +147,24 @@ IsNot
 
 .. autoclass:: IsNot
 
-IsVisible
-^^^^^^^^^
-
-.. autoclass:: IsVisible
 
 ReadsExactly
 ^^^^^^^^^^^^
 
 .. autoclass:: ReadsExactly
+
+
+Web Resolutions
+---------------
+
+.. module:: screenpy.web.selenium.resolutions
+
+IsClickable
+^^^^^^^^^^^
+
+.. autoclass:: IsClickable
+
+IsVisible
+^^^^^^^^^
+
+.. autoclass:: IsVisible

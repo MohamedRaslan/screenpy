@@ -10,7 +10,7 @@ clicking-and-dragging or hovering.
 
 You are able to chain
 many of the included :ref:`actions`,
-but some are not :class:`~screenpy.protocols.Chainable`.
+but some are not :class:`~screenpy.core.protocols.Chainable`.
 These will cause your Actor
 to raise an |UnableToAct| exception.
 Chainable Actions
@@ -26,7 +26,7 @@ See the :ref:`protocols` page for more information.
 
 Adding Actions to a Chain looks like this::
 
-    from screenpy.actions import Chain, Click, Hover
+    from screenpy.web.selenium.actions import Chain, Click, Hover
 
     from ..user_interface.homepage import HAMBURGER_MENU, SIGN_IN_LINK
 

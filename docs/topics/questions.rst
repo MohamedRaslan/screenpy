@@ -19,9 +19,9 @@ you will not be asking a Question
 without an expected answer.
 This is how you do test assertions in ScreenPy::
 
-    from screenpy.actions import See
-    from screenpy.questions import Text
-    from screenpy.resolutions import ReadsExactly
+    from screenpy.core.actions import See
+    from screenpy.web.selenium.questions import Text
+    from screenpy.core.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
@@ -55,8 +55,8 @@ Writing New Questions
 It is very likely
 that you will want to write
 some custom Questions.
-Questions must be :class:`~screenpy.protocols.Answerable`,
-which means they have an :meth:`~screenpy.protocols.Answerable.answered_by` method.
+Questions must be :class:`~screenpy.core.protocols.Answerable`,
+which means they have an :meth:`~screenpy.core.protocols.Answerable.answered_by` method.
 
 Let's take a look
 at what an extremely contrived custom Question,
@@ -64,7 +64,8 @@ at what an extremely contrived custom Question,
 might look like::
 
     # questions/misspelled_words.py
-    from screenpy import Actor, Target
+    from screenpy.core import Actor
+    form screenpy.web.selenium import Target
 
     from ..abilities import CheckSpelling
 
@@ -105,7 +106,7 @@ these are extremely contrived.
 
 Anyway,
 the magic all happens
-in the :meth:`~screenpy.protocols.Answerable.answered_by` method.
+in the :meth:`~screenpy.core.protocols.Answerable.answered_by` method.
 It leverages the Actor's Ability
 and returns the answer it finds.
 
@@ -120,18 +121,15 @@ Provided Questions
 
 These are the Questions included in ScreenPy.
 
-.. module:: screenpy.questions
+Web Questions
+-------------
+.. module:: screenpy.web.selenium.questions
 
 Attribute
 ^^^^^^^^^
 
 .. autoclass:: Attribute
     :members:
-
-BodyOfTheLastResponse
-^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: BodyOfTheLastResponse
 
 BrowserTitle
 ^^^^^^^^^^^^
@@ -171,13 +169,28 @@ Selected
 .. autoclass:: Selected
     :members:
 
-StatusCodeOfTheLastResponse
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: StatusCodeOfTheLastResponse
-
 Text
 ^^^^
 
 .. autoclass:: Text
     :members:
+
+
+API Questions
+-------------
+.. module:: screenpy.api.questions
+
+BodyOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: BodyOfTheLastResponse
+
+Cookies
+^^^^^^^
+
+.. autoclass:: Cookies
+
+StatusCodeOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: StatusCodeOfTheLastResponse

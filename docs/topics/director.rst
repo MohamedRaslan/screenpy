@@ -14,7 +14,7 @@ Using the Director
 The Director will not be used directly,
 usually.
 The Director is used
-in the :class:`~screenpy.actions.MakeNote` Action,
+in the :class:`~screenpy.core.actions.MakeNote` Action,
 and may be used
 in custom Actions
 or future Actions
@@ -28,7 +28,7 @@ it is the Director
 who keeps track of it.
 
 To look up a note,
-use the :func:`~screenpy.directions.noted_under` Direction.
+use the :func:`~screenpy.core.directions.noted_under` Direction.
 You can use it *anywhere*::
 
     Perry.attempts_to(
@@ -65,14 +65,14 @@ like ``Director()``.
 
 For example,
 this is from the source
-of the :class:`~screenpy.actions.MakeNote` Action::
+of the :class:`~screenpy.core.actions.MakeNote` Action::
 
     Director().notes(self.key, value)
 
 Director Class
 --------------
 
-.. autoclass:: screenpy.director.Director
+.. autoclass:: screenpy.core.director.Director
     :members:
 
 
@@ -81,5 +81,5 @@ Director Class
 Included Directions
 -------------------
 
-.. automodule:: screenpy.directions
+.. automodule:: screenpy.core.directions
     :members:
