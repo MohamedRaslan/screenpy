@@ -3,7 +3,7 @@ Locators and URL for The Internet app's homepage.
 """
 
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "http://the-internet.herokuapp.com/"
 

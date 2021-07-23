@@ -2,10 +2,11 @@
 API test example that tests cookies.
 """
 
-from screenpy import Actor, then, when
-from screenpy.actions import SeeAllOf, SendGETRequest
-from screenpy.questions import Cookies, StatusCodeOfTheLastResponse
-from screenpy.resolutions import ContainTheEntry, IsEqualTo
+from screenpy.core import Actor, then, when
+from screenpy.core.actions import SeeAllOf
+from screenpy.api.actions import SendGETRequest
+from screenpy.api.questions import Cookies, StatusCodeOfTheLastResponse
+from screenpy.core.resolutions import ContainTheEntry, IsEqualTo
 
 from ..urls import SET_COOKIES_URL
 

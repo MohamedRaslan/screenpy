@@ -8,12 +8,14 @@ import unittest
 
 from selenium.webdriver import Firefox
 
-from screenpy import AnActor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Open, See, Wait
-from screenpy.pacing import act, scene
-from screenpy.questions import Attribute, Element, Number
-from screenpy.resolutions import ContainsTheText, IsEqualTo, IsVisible
+from screenpy.core import AnActor, given, then, when
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.core.actions import See
+from screenpy.web.selenium.actions import Click, Open, Wait
+from screenpy.core.pacing import act, scene
+from screenpy.web.selenium.questions import Attribute, Element, Number
+from screenpy.core.resolutions import ContainsTheText, IsEqualTo
+from screenpy.web.selenium.resolutions import IsVisible
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 

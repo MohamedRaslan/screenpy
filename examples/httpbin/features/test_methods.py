@@ -4,10 +4,11 @@ API test examples that use all the HTTP methods.
 
 import pytest
 
-from screenpy import Actor, then, when
-from screenpy.actions import See, SendAPIRequest, SendGETRequest
-from screenpy.questions import BodyOfTheLastResponse, StatusCodeOfTheLastResponse
-from screenpy.resolutions import IsEqualTo, ReadsExactly
+from screenpy.core import Actor, then, when
+from screenpy.core.actions import See
+from screenpy.api.actions import SendAPIRequest, SendGETRequest
+from screenpy.api.questions import BodyOfTheLastResponse, StatusCodeOfTheLastResponse
+from screenpy.core.resolutions import IsEqualTo, ReadsExactly
 
 from ..urls import BASE64_URL, BASE_URL
 

@@ -6,8 +6,8 @@ from typing import Generator
 
 import pytest
 
-from screenpy import AnActor
-from screenpy.abilities import MakeAPIRequests
+from screenpy.core import AnActor
+from screenpy.api.abilities import MakeAPIRequests
 
 
 @pytest.fixture

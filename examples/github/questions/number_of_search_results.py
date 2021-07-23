@@ -3,9 +3,9 @@ A Question to find out the number of search results on the GitHub search
 page.
 """
 
-from screenpy import Actor
-from screenpy.pacing import beat
-from screenpy.questions import Number
+from screenpy.core import Actor
+from screenpy.core.pacing import beat
+from screenpy.web.selenium.questions import Number
 
 from ..user_interface.github_search_results_page import SEARCH_RESULTS
 

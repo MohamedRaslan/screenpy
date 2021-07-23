@@ -9,11 +9,12 @@ from typing import Generator
 import pytest
 from selenium.webdriver import Firefox
 
-from screenpy import Actor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open, See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import (
+from screenpy.core import Actor, given, then, when
+from screenpy.core.actions import See
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.web.selenium.actions import Open
+from screenpy.core.pacing import act, scene
+from screenpy.core.resolutions import (
     ContainsTheText,
     ContainTheText,
     DoesNot,

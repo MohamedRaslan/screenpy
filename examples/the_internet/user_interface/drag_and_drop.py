@@ -2,7 +2,7 @@
 Locators and URL for the Drag and Drop page.
 """
 
-from screenpy import Target
+from screenpy.web.selenium import Target
 
 URL = "http://the-internet.herokuapp.com/drag_and_drop"
 

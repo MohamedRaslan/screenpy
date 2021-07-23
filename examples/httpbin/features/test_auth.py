@@ -2,10 +2,11 @@
 API test example that tests various auths.
 """
 
-from screenpy import Actor, given, then, when
-from screenpy.actions import AddHeader, See, SendGETRequest
-from screenpy.questions import StatusCodeOfTheLastResponse
-from screenpy.resolutions import IsEqualTo
+from screenpy.core import Actor, given, then, when
+from screenpy.core.actions import See
+from screenpy.api.actions import AddHeader, SendGETRequest
+from screenpy.api.questions import StatusCodeOfTheLastResponse
+from screenpy.core.resolutions import IsEqualTo
 
 from ..urls import BASIC_AUTH_URL, BEARER_AUTH_URL
 

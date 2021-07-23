@@ -5,12 +5,13 @@ test structure. These tests exercise the SwitchToTab Action.
 
 import unittest
 
-from screenpy import AnActor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Open, Pause, See, SwitchToTab
-from screenpy.pacing import act, scene
-from screenpy.questions import BrowserURL, Text
-from screenpy.resolutions import ContainsTheText, ReadsExactly
+from screenpy.core import AnActor, given, then, when
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.core.actions import See
+from screenpy.web.selenium.actions import Click, Open, Pause, SwitchToTab
+from screenpy.core.pacing import act, scene
+from screenpy.web.selenium.questions import BrowserURL, Text
+from screenpy.core.resolutions import ContainsTheText, ReadsExactly
 
 from ..user_interface.multiple_windows import CLICK_HERE_LINK, HEADER_MESSAGE, URL
 

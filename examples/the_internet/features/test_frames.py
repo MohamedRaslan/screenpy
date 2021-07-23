@@ -5,12 +5,13 @@ test structure. These tests exercise the frame switching Actions.
 
 import unittest
 
-from screenpy import AnActor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open, See, SwitchTo
-from screenpy.pacing import act, scene
-from screenpy.questions import Text
-from screenpy.resolutions import ReadsExactly
+from screenpy.core import AnActor, given, then, when
+from screenpy.core.actions import See
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.web.selenium.actions import Open, SwitchTo
+from screenpy.core.pacing import act, scene
+from screenpy.web.selenium.questions import Text
+from screenpy.core.resolutions import ReadsExactly
 
 from ..user_interface.iframe import CONTENT_BOX, URL, WYSIWYG_IFRAME
 

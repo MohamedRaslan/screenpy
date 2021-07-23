@@ -5,19 +5,19 @@ test structure. These tests exercise the alert checking Actions.
 
 import unittest
 
-from screenpy import AnActor, given, then, when
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import (
+from screenpy.core import AnActor, given, then, when
+from screenpy.core.actions import See
+from screenpy.web.selenium.abilities import BrowseTheWeb
+from screenpy.web.selenium.actions import (
     AcceptAlert,
     Click,
     DismissAlert,
     Open,
     RespondToPrompt,
-    See,
 )
-from screenpy.pacing import act, scene
-from screenpy.questions import Text, TextOfTheAlert
-from screenpy.resolutions import ReadsExactly
+from screenpy.core.pacing import act, scene
+from screenpy.web.selenium.questions import Text, TextOfTheAlert
+from screenpy.core.resolutions import ReadsExactly
 
 from ..user_interface.javascript_alerts import (
     JS_ALERT_BUTTON,
