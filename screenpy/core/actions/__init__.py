@@ -28,6 +28,4 @@ __all__ = [
     "Verify",
     "VerifyAllOf",
     "VerifyAnyOf",
-    "Visit",
-    "Wait",
 ]
